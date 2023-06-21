@@ -6,29 +6,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -54,15 +43,17 @@ public class MainActivity extends AppCompatActivity {
         searchButton = findViewById(R.id.searchButton);
         adapter = findViewById(R.id.recyclerView);
 
+        adapter.setLayoutManager(new GridLayoutManager(this, 2)); // Set GridLayoutManager with 2 columns
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<SearchResult> searchResults = new ArrayList<>();
 
                 // Add some example search results
-                SearchResult result1 = new SearchResult("Result 1", "https://example.com/image1.jpg");
-                SearchResult result2 = new SearchResult("Result 2", "https://example.com/image2.jpg");
-                SearchResult result3 = new SearchResult("Result 3", "https://example.com/image3.jpg");
+                SearchResult result1 = new SearchResult("Mufikin Pikka", "https://cdn.poketwo.net/images/50032.png?v=26");
+                SearchResult result2 = new SearchResult("dedass sanshrw B", "https://cdn.poketwo.net/images/50023.png?v=26");
+                SearchResult result3 = new SearchResult("a cute lil bug", "https://cdn.poketwo.net/images/50094.png?v=26");
 
                 searchResults.add(result1);
                 searchResults.add(result2);
@@ -70,32 +61,10 @@ public class MainActivity extends AppCompatActivity {
 
                 SearchResultAdapter resultAdapter = new SearchResultAdapter(searchResults);
                 adapter.setAdapter(resultAdapter); // Set the adapter to the RecyclerView
-
-//                if (!trieLoaded) {
-//                    // If trie is not loaded, show an error message
-//                    Log.e("MainActivity", "Trie is not loaded. Cannot perform search.");
-//                    return;
-//                }
-//                String searchTerm = textInput.getText().toString();
-//                List<SearchResult> names_urls = searchInTrie(pokemonTrie, searchTerm);
-//                Log.d("MainActivity", "Button clicked!");
-//
-//                if (names_urls != null && !names_urls.isEmpty()) {
-//                    Log.d("MainActivity", "Results for Pokemon: " + searchTerm);
-//                    for (SearchResult result : names_urls) {
-//                        Log.d("MainActivity", "Prefix: " + result.getPrefix());
-//                        Log.d("MainActivity", "URL: " + result.getUrl());
-//                        Log.d("MainActivity", "------------------------");
-//                        loadImageFromUrl(result.getUrl());
-//                    }
-//                } else {
-//                    System.out.println("Pokemon not found: " + searchTerm);
-//                }
-//                outputText.setText("Result: " + names_urls);
-//                loadImageFromUrl("https://via.placeholder.com/475x475.png");
             }
         });
     }
+
 
     @Override
     protected void onResume() {
