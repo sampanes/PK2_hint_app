@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Button searchButton;
     private RecyclerView adapter;
     private TrieNode pokemonTrie;
+    private TextView howManyResults;
     private boolean trieLoaded = false;
     private static final String TRIE_FILE_NAME = "trie.ser";
 
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         textInput = findViewById(R.id.textInput);
         searchButton = findViewById(R.id.searchButton);
         adapter = findViewById(R.id.recyclerView);
+        howManyResults = findViewById(R.id.howManyResults);
 
         adapter.setLayoutManager(new GridLayoutManager(this, 2)); // Set GridLayoutManager with 2 columns
 
@@ -58,6 +61,23 @@ public class MainActivity extends AppCompatActivity {
                 searchResults.add(result1);
                 searchResults.add(result2);
                 searchResults.add(result3);
+                searchResults.add(result1);
+                searchResults.add(result2);
+                searchResults.add(result3);
+                searchResults.add(result1);
+                searchResults.add(result2);
+                searchResults.add(result3);
+
+                String searchQuery = textInput.getText().toString(); // Assuming you have an EditText called textInput for entering the search query
+                String resultText;
+                int resultCount = searchResults.size();
+                if (resultCount == 1) {
+                    resultText = resultCount + " result for \"" + searchQuery + "\"";
+                } else {
+                    resultText = resultCount + " results for \"" + searchQuery + "\"";
+                }
+                howManyResults.setText(resultText);
+
 
                 SearchResultAdapter resultAdapter = new SearchResultAdapter(searchResults);
                 adapter.setAdapter(resultAdapter); // Set the adapter to the RecyclerView

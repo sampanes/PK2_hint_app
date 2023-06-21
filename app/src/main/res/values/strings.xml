@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Pokemon Hint Solver</string>
+    <string name="enter_pok_mon_name">Enter Pokémon name</string>
+    <string name="search">Search</string>
 </resources>
