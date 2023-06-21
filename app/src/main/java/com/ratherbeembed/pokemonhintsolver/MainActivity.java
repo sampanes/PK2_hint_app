@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
@@ -23,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +39,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
     private EditText textInput;
     private Button searchButton;
-    private TextView outputText;
+    private RecyclerView adapter;
     private TrieNode pokemonTrie;
     private boolean trieLoaded = false;
     private static final String TRIE_FILE_NAME = "trie.ser";
@@ -50,31 +52,45 @@ public class MainActivity extends AppCompatActivity {
 
         textInput = findViewById(R.id.textInput);
         searchButton = findViewById(R.id.searchButton);
-        outputText = findViewById(R.id.outputText);
+        adapter = findViewById(R.id.recyclerView);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!trieLoaded) {
-                    // If trie is not loaded, show an error message
-                    Log.e("MainActivity", "Trie is not loaded. Cannot perform search.");
-                    return;
-                }
-                String searchTerm = textInput.getText().toString();
-                List<SearchResult> names_urls = searchInTrie(pokemonTrie, searchTerm);
-                Log.d("MainActivity", "Button clicked!");
+                List<SearchResult> searchResults = new ArrayList<>();
 
-                if (names_urls != null && !names_urls.isEmpty()) {
-                    Log.d("MainActivity", "Results for Pokemon: " + searchTerm);
-                    for (SearchResult result : names_urls) {
-                        Log.d("MainActivity", "Prefix: " + result.getPrefix());
-                        Log.d("MainActivity", "URL: " + result.getUrl());
-                        Log.d("MainActivity", "------------------------");
-                        loadImageFromUrl(result.getUrl());
-                    }
-                } else {
-                    System.out.println("Pokemon not found: " + searchTerm);
-                }
+                // Add some example search results
+                SearchResult result1 = new SearchResult("Result 1", "https://example.com/image1.jpg");
+                SearchResult result2 = new SearchResult("Result 2", "https://example.com/image2.jpg");
+                SearchResult result3 = new SearchResult("Result 3", "https://example.com/image3.jpg");
+
+                searchResults.add(result1);
+                searchResults.add(result2);
+                searchResults.add(result3);
+
+                SearchResultAdapter resultAdapter = new SearchResultAdapter(searchResults);
+                adapter.setAdapter(resultAdapter); // Set the adapter to the RecyclerView
+
+//                if (!trieLoaded) {
+//                    // If trie is not loaded, show an error message
+//                    Log.e("MainActivity", "Trie is not loaded. Cannot perform search.");
+//                    return;
+//                }
+//                String searchTerm = textInput.getText().toString();
+//                List<SearchResult> names_urls = searchInTrie(pokemonTrie, searchTerm);
+//                Log.d("MainActivity", "Button clicked!");
+//
+//                if (names_urls != null && !names_urls.isEmpty()) {
+//                    Log.d("MainActivity", "Results for Pokemon: " + searchTerm);
+//                    for (SearchResult result : names_urls) {
+//                        Log.d("MainActivity", "Prefix: " + result.getPrefix());
+//                        Log.d("MainActivity", "URL: " + result.getUrl());
+//                        Log.d("MainActivity", "------------------------");
+//                        loadImageFromUrl(result.getUrl());
+//                    }
+//                } else {
+//                    System.out.println("Pokemon not found: " + searchTerm);
+//                }
 //                outputText.setText("Result: " + names_urls);
 //                loadImageFromUrl("https://via.placeholder.com/475x475.png");
             }
@@ -161,11 +177,6 @@ public class MainActivity extends AppCompatActivity {
                 response.close();
             }
         });
-    }
-
-    private void loadImageFromUrl(String imageUrl) {
-        ImageView imageView = findViewById(R.id.imageView);
-        Picasso.get().load(imageUrl).into(imageView);
     }
 }
 

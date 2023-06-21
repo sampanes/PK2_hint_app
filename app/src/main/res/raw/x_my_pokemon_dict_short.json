@@ -1,0 +1,495 @@
+{
+    "Bulbasaur": {
+        "Name": "Bulbasaur",
+        "Number": 1,
+        "Description": "For some time after its birth, it grows by taking nourishment from the seed on its back.",
+        "Evolution": "Bulbasaur evolves to Ivysaur starting from level 16, which evolves to Venusaur starting from level 32.",
+        "Rarity": null,
+        "Types": [
+            "Grass",
+            "Poison"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 45,
+            "Attack": 49,
+            "Defense": 49,
+            "Sp. Atk": 65,
+            "Sp. Def": 65,
+            "Speed": 45
+        },
+        "Names": {
+            "jp": [
+                "\u30d5\u30b7\u30ae\u30c0\u30cd",
+                "Fushigidane"
+            ],
+            "gb": [
+                "Bulbasaur"
+            ],
+            "de": [
+                "Bisasam"
+            ],
+            "fr": [
+                "Bulbizarre"
+            ]
+        },
+        "Appearance": {
+            "Height": "0.7 m",
+            "Weight": "6.9 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/1.png?v=26"
+    },
+    "Ivysaur": {
+        "Name": "Ivysaur",
+        "Number": 2,
+        "Description": "When the bud on its back starts swelling, a sweet aroma wafts to indicate the flower\u2019s coming bloom.",
+        "Evolution": "Ivysaur evolves from Bulbasaur starting from level 16 and evolves to Venusaur starting from level 32.",
+        "Rarity": null,
+        "Types": [
+            "Grass",
+            "Poison"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 60,
+            "Attack": 62,
+            "Defense": 63,
+            "Sp. Atk": 80,
+            "Sp. Def": 80,
+            "Speed": 60
+        },
+        "Names": {
+            "jp": [
+                "\u30d5\u30b7\u30ae\u30bd\u30a6",
+                "Fushigis\u014d",
+                "Fushigisou"
+            ],
+            "gb": [
+                "Ivysaur"
+            ],
+            "de": [
+                "Bisaknosp"
+            ],
+            "fr": [
+                "Herbizarre"
+            ]
+        },
+        "Appearance": {
+            "Height": "1.0 m",
+            "Weight": "13.0 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/2.png?v=26"
+    },
+    "Venusaur": {
+        "Name": "Venusaur",
+        "Number": 3,
+        "Description": "After a rainy day, the flower on its back smells stronger. The scent attracts other Pok\u00e9mon.",
+        "Evolution": "Venusaur evolves from Ivysaur starting from level 32, which evolves from Bulbasaur starting from level 16.",
+        "Rarity": null,
+        "Types": [
+            "Grass",
+            "Poison"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 80,
+            "Attack": 82,
+            "Defense": 83,
+            "Sp. Atk": 100,
+            "Sp. Def": 100,
+            "Speed": 80
+        },
+        "Names": {
+            "jp": [
+                "\u30d5\u30b7\u30ae\u30d0\u30ca",
+                "Fushigibana"
+            ],
+            "gb": [
+                "Venusaur"
+            ],
+            "de": [
+                "Bisaflor"
+            ],
+            "fr": [
+                "Florizarre"
+            ]
+        },
+        "Appearance": {
+            "Height": "2.0 m",
+            "Weight": "100.0 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/3.png?v=26"
+    },
+    "Charmander": {
+        "Name": "Charmander",
+        "Number": 4,
+        "Description": "The fire on the tip of its tail is a measure of its life. If the Pok\u00e9mon is healthy, its tail burns intensely.",
+        "Evolution": "Charmander evolves to Charmeleon starting from level 16, which evolves to Charizard starting from level 36.",
+        "Rarity": null,
+        "Types": [
+            "Fire"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 39,
+            "Attack": 52,
+            "Defense": 43,
+            "Sp. Atk": 60,
+            "Sp. Def": 50,
+            "Speed": 65
+        },
+        "Names": {
+            "jp": [
+                "\u30d2\u30c8\u30ab\u30b2",
+                "Hitokage"
+            ],
+            "gb": [
+                "Charmander"
+            ],
+            "de": [
+                "Glumanda"
+            ],
+            "fr": [
+                "Salam\u00e8che"
+            ]
+        },
+        "Appearance": {
+            "Height": "0.6 m",
+            "Weight": "8.5 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/4.png?v=26"
+    },
+    "Charmeleon": {
+        "Name": "Charmeleon",
+        "Number": 5,
+        "Description": "In the rocky mountains where Charmeleon live, their fiery tails shine at night like stars.",
+        "Evolution": "Charmeleon evolves from Charmander starting from level 16 and evolves to Charizard starting from level 36.",
+        "Rarity": null,
+        "Types": [
+            "Fire"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 58,
+            "Attack": 64,
+            "Defense": 58,
+            "Sp. Atk": 80,
+            "Sp. Def": 65,
+            "Speed": 80
+        },
+        "Names": {
+            "jp": [
+                "\u30ea\u30b6\u30fc\u30c9",
+                "Riz\u0101do",
+                "Lizardo"
+            ],
+            "gb": [
+                "Charmeleon"
+            ],
+            "de": [
+                "Glutexo"
+            ],
+            "fr": [
+                "Reptincel"
+            ]
+        },
+        "Appearance": {
+            "Height": "1.1 m",
+            "Weight": "19.0 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/5.png?v=26"
+    },
+    "Charizard": {
+        "Name": "Charizard",
+        "Number": 6,
+        "Description": "It is said that Charizard\u2019s fire burns hotter if it has experienced harsh battles.",
+        "Evolution": "Charizard evolves from Charmeleon starting from level 36, which evolves from Charmander starting from level 16.",
+        "Rarity": null,
+        "Types": [
+            "Fire",
+            "Flying"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 78,
+            "Attack": 84,
+            "Defense": 78,
+            "Sp. Atk": 109,
+            "Sp. Def": 85,
+            "Speed": 100
+        },
+        "Names": {
+            "jp": [
+                "\u30ea\u30b6\u30fc\u30c9\u30f3",
+                "Riz\u0101don",
+                "Lizardon"
+            ],
+            "gb": [
+                "Charizard"
+            ],
+            "de": [
+                "Glurak"
+            ],
+            "fr": [
+                "Dracaufeu"
+            ]
+        },
+        "Appearance": {
+            "Height": "1.7 m",
+            "Weight": "90.5 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/6.png?v=26"
+    },
+    "Squirtle": {
+        "Name": "Squirtle",
+        "Number": 7,
+        "Description": "It hides in its shell to protect itself, then strikes back with spouts of water at every opportunity.",
+        "Evolution": "Squirtle evolves to Wartortle starting from level 16, which evolves to Blastoise starting from level 36.",
+        "Rarity": null,
+        "Types": [
+            "Water"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 44,
+            "Attack": 48,
+            "Defense": 65,
+            "Sp. Atk": 50,
+            "Sp. Def": 64,
+            "Speed": 43
+        },
+        "Names": {
+            "jp": [
+                "\u30bc\u30cb\u30ac\u30e1",
+                "Zenigame"
+            ],
+            "gb": [
+                "Squirtle"
+            ],
+            "de": [
+                "Schiggy"
+            ],
+            "fr": [
+                "Carapuce"
+            ]
+        },
+        "Appearance": {
+            "Height": "0.5 m",
+            "Weight": "9.0 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/7.png?v=26"
+    },
+    "Wartortle": {
+        "Name": "Wartortle",
+        "Number": 8,
+        "Description": "It is said to live 10,000 years. Its furry tail is popular as a symbol of longevity.",
+        "Evolution": "Wartortle evolves from Squirtle starting from level 16 and evolves to Blastoise starting from level 36.",
+        "Rarity": null,
+        "Types": [
+            "Water"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 59,
+            "Attack": 63,
+            "Defense": 80,
+            "Sp. Atk": 65,
+            "Sp. Def": 80,
+            "Speed": 58
+        },
+        "Names": {
+            "jp": [
+                "\u30ab\u30e1\u30fc\u30eb",
+                "Kam\u0113ru",
+                "Kameil"
+            ],
+            "gb": [
+                "Wartortle"
+            ],
+            "de": [
+                "Schillok"
+            ],
+            "fr": [
+                "Carabaffe"
+            ]
+        },
+        "Appearance": {
+            "Height": "1.0 m",
+            "Weight": "22.5 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/8.png?v=26"
+    },
+    "Blastoise": {
+        "Name": "Blastoise",
+        "Number": 9,
+        "Description": "The jets of water it spouts from the rocket cannons on its shell can punch through thick steel.",
+        "Evolution": "Blastoise evolves from Wartortle starting from level 36, which evolves from Squirtle starting from level 16.",
+        "Rarity": null,
+        "Types": [
+            "Water"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 79,
+            "Attack": 83,
+            "Defense": 100,
+            "Sp. Atk": 85,
+            "Sp. Def": 105,
+            "Speed": 78
+        },
+        "Names": {
+            "jp": [
+                "\u30ab\u30e1\u30c3\u30af\u30b9",
+                "Kamekkusu",
+                "Kamex"
+            ],
+            "gb": [
+                "Blastoise"
+            ],
+            "de": [
+                "Turtok"
+            ],
+            "fr": [
+                "Tortank"
+            ]
+        },
+        "Appearance": {
+            "Height": "1.6 m",
+            "Weight": "85.5 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/9.png?v=26"
+    },
+    "Caterpie": {
+        "Name": "Caterpie",
+        "Number": 10,
+        "Description": "It releases a stench from its red antennae to repel enemies. It grows by molting repeatedly.",
+        "Evolution": "Caterpie evolves to Metapod starting from level 7, which evolves to Butterfree starting from level 10.",
+        "Rarity": null,
+        "Types": [
+            "Bug"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 45,
+            "Attack": 30,
+            "Defense": 35,
+            "Sp. Atk": 20,
+            "Sp. Def": 20,
+            "Speed": 45
+        },
+        "Names": {
+            "jp": [
+                "\u30ad\u30e3\u30bf\u30d4\u30fc",
+                "Kyatap\u012b",
+                "Caterpie"
+            ],
+            "gb": [
+                "Caterpie"
+            ],
+            "de": [
+                "Raupy"
+            ],
+            "fr": [
+                "Chenipan"
+            ]
+        },
+        "Appearance": {
+            "Height": "0.3 m",
+            "Weight": "2.9 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/10.png?v=26"
+    },
+    "Metapod": {
+        "Name": "Metapod",
+        "Number": 11,
+        "Description": "A steel-hard shell protects its tender body. The Pok\u00e9mon quietly endures hardships while awaiting evolution.",
+        "Evolution": "Metapod evolves from Caterpie starting from level 7 and evolves to Butterfree starting from level 10.",
+        "Rarity": null,
+        "Types": [
+            "Bug"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 50,
+            "Attack": 20,
+            "Defense": 55,
+            "Sp. Atk": 25,
+            "Sp. Def": 25,
+            "Speed": 30
+        },
+        "Names": {
+            "jp": [
+                "\u30c8\u30e9\u30f3\u30bb\u30eb",
+                "Toranseru",
+                "Transel"
+            ],
+            "gb": [
+                "Metapod"
+            ],
+            "de": [
+                "Safcon"
+            ],
+            "fr": [
+                "Chrysacier"
+            ]
+        },
+        "Appearance": {
+            "Height": "0.7 m",
+            "Weight": "9.9 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/11.png?v=26"
+    },
+    "Butterfree": {
+        "Name": "Butterfree",
+        "Number": 12,
+        "Description": "It loves the nectar of flowers and can locate flower patches that have even tiny amounts of pollen.",
+        "Evolution": "Butterfree evolves from Metapod starting from level 10, which evolves from Caterpie starting from level 7.",
+        "Rarity": null,
+        "Types": [
+            "Bug",
+            "Flying"
+        ],
+        "Region": "Kanto",
+        "Catchable": true,
+        "Base Stats": {
+            "HP": 60,
+            "Attack": 45,
+            "Defense": 50,
+            "Sp. Atk": 90,
+            "Sp. Def": 80,
+            "Speed": 70
+        },
+        "Names": {
+            "jp": [
+                "\u30d0\u30bf\u30d5\u30ea\u30fc",
+                "Batafur\u012b",
+                "Butterfree"
+            ],
+            "gb": [
+                "Butterfree"
+            ],
+            "de": [
+                "Smettbo"
+            ],
+            "fr": [
+                "Papilusion"
+            ]
+        },
+        "Appearance": {
+            "Height": "1.1 m",
+            "Weight": "32.0 kg"
+        },
+        "URL": "https://cdn.poketwo.net/images/12.png?v=26"
+    }
+}
