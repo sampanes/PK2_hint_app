@@ -57,9 +57,12 @@ public class MainActivity extends AppCompatActivity {
 
         searchButton.setOnClickListener(v -> {
 //            List<SearchResult> searchResults = createExampleSearchResults();
-
             String searchQuery = textInput.getText().toString();
+            Log.d("MainActivity", "Search Pressed: " + searchQuery);
+
             List<SearchResult> searchResults = pokemonTrie.searchTrie(searchQuery);
+            Log.d("MainActivity", "Searched trie, searchResults: " + searchResults);
+
             String resultText = getResultText(searchResults.size(), searchQuery);
             howManyResults.setText(resultText);
 
@@ -167,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     JsonElement urlElement = pokemonDataJson.get("URL");
 
                     if (skipped_pks == 0) {
-                        Log.d("MainActivity", "First Skipped Pokemon Data: " + pokemonDataJson);
+                        Log.d("MainTrieFromJson", "First Skipped Pokemon Data: " + pokemonDataJson);
                     }
 
                     if (nameElement != null && nameElement.isJsonPrimitive() && urlElement != null && urlElement.isJsonPrimitive()) {
@@ -183,27 +186,28 @@ public class MainActivity extends AppCompatActivity {
                             name = name.replace("&", "and");
                         }
 
-                        Log.d("MainActivity", "Name: " + name);
-                        Log.d("MainActivity", "URL: " + url);
+                        Log.d("MainTrieFromJson", "Name: " + name);
+                        Log.d("MainTrieFromJson", "URL: " + url);
 
                         TrieUpdater.updateTrie(pokemonTrie, name, url);
                     } else {
                         skipped_pks += 1;
                         if (skipped_pks < 5) {
-                            Log.d("MainActivity", "Skipping Pokemon: " + pokemonName);
-                            Log.d("MainActivity", "nameElement: " + nameElement);
-                            Log.d("MainActivity", "urlElement: " + urlElement);
+                            Log.d("MainTrieFromJson", "Skipping Pokemon: " + pokemonName);
+                            Log.d("MainTrieFromJson", "nameElement: " + nameElement);
+                            Log.d("MainTrieFromJson", "urlElement: " + urlElement);
                         }
                     }
                 } else {
-                    Log.d("MainActivity", "Not Object.. Invalid JSON entry for Pokemon: " + pokemonName);
+                    Log.d("MainTrieFromJson", "Not Object.. Invalid JSON entry for Pokemon: " + pokemonName);
                 }
             }
 
             if (skipped_pks > 0) {
-                Log.d("MainActivity", "Lots of non-pokemon, probably shinys with funky star: " + skipped_pks);
+                Log.d("MainTrieFromJson", "Lots of non-pokemon, probably shinys with funky star: " + skipped_pks);
             }
         } catch (IOException e) {
+            Log.e("MainTrieFromJson", "error calling new FileReader " + JSON_FILE_FULL_PATH_NAME + "\nerror: " + e);
             e.printStackTrace();
         }
     }
