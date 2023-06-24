@@ -51,9 +51,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public void bind(SearchResult searchResult) {
             nameTextView.setText(searchResult.getPrefix());
             // Load the image using Picasso
-            Picasso.get().load(searchResult.getUrl()).into(imageView);
+            Picasso.get().load(searchResult.getUrl()).fit().centerInside().into(imageView);
         }
-
     }
 }
 
