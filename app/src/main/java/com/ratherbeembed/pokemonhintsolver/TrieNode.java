@@ -42,6 +42,16 @@ public class TrieNode implements Serializable {
         this.url = url;
     }
 
+    public boolean isEmpty() {
+        for (TrieNode child : children) {
+            if (child != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     private char getChildCharacter(TrieNode parentNode, TrieNode childNode) {
         for (int i = 0; i < parentNode.getChildren().length; i++) {
             if (parentNode.getChildren()[i] == childNode) {
@@ -51,13 +61,17 @@ public class TrieNode implements Serializable {
         throw new IllegalArgumentException("Child node not found in parent's children");
     }
 
-    public List<SearchResult> searchTrie(TrieNode root, String query) {
+    public List<SearchResult> searchTrie(String query) {
         List<SearchResult> results = new ArrayList<>();
-        searchTrieHelper(root, query.toLowerCase(), new StringBuilder(), results);
+        searchTrieHelper(this, query.toLowerCase(), new StringBuilder(), results);
         return results;
     }
 
     private void searchTrieHelper(TrieNode node, String query, StringBuilder prefix, List<SearchResult> results) {
+        Log.d("TrieNode", "Current Node: " + node);
+        Log.d("TrieNode", "Query: " + query);
+        Log.d("TrieNode", "Prefix: " + prefix.toString());
+
         if (query.isEmpty()) {
             if (node.isEndOfWord()) {
                 SearchResult result = new SearchResult(prefix.toString(), node.getURL());
@@ -83,12 +97,18 @@ public class TrieNode implements Serializable {
             }
         } else {
             int index = CharUtils.getIndex(nextChar);
-            TrieNode childNode = node.getChildren()[index];
-            if (childNode != null) {
-                char ch = getChildCharacter(node, childNode);
-                prefix.append(ch);
-                searchTrieHelper(childNode, remainingQuery, prefix, results);
-                prefix.setLength(prefix.length() - 1);
+            if (index >= 0 && index < node.getChildren().length) {
+                TrieNode childNode = node.getChildren()[index];
+                if (childNode != null) {
+                    char ch = getChildCharacter(node, childNode);
+                    prefix.append(ch);
+                    searchTrieHelper(childNode, remainingQuery, prefix, results);
+                    prefix.setLength(prefix.length() - 1);
+                } else {
+                    Log.d("TrieNode", "Child node not found for character: " + nextChar);
+                }
+            } else {
+                Log.d("TrieNode", "Invalid character: " + nextChar);
             }
         }
     }

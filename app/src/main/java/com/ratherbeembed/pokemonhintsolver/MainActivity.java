@@ -1,9 +1,7 @@
 package com.ratherbeembed.pokemonhintsolver;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,13 +10,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView howManyResults;
     private boolean trieLoaded = false;
     private static final String TRIE_FILE_NAME = "trie.ser";
+    private static final String JSON_FILE_NAME = "pokemon_dict.json";
+    private static final String JSON_FILE_FULL_PATH_NAME = "/data/user/0/com.ratherbeembed.pokemonhintsolver/files/" + JSON_FILE_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,90 +53,46 @@ public class MainActivity extends AppCompatActivity {
         adapter = findViewById(R.id.recyclerView);
         howManyResults = findViewById(R.id.howManyResults);
 
-        adapter.setLayoutManager(new GridLayoutManager(this, 2)); // Set GridLayoutManager with 2 columns
+        adapter.setLayoutManager(new GridLayoutManager(this, 2));
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<SearchResult> searchResults = new ArrayList<>();
+        searchButton.setOnClickListener(v -> {
+//            List<SearchResult> searchResults = createExampleSearchResults();
 
-                // Add some example search results
-                SearchResult result1 = new SearchResult("Mufikin Pikka", "https://cdn.poketwo.net/images/50032.png?v=26");
-                SearchResult result2 = new SearchResult("dedass sanshrw B", "https://cdn.poketwo.net/images/50023.png?v=26");
-                SearchResult result3 = new SearchResult("a cute lil bug", "https://cdn.poketwo.net/images/50094.png?v=26");
+            String searchQuery = textInput.getText().toString();
+            List<SearchResult> searchResults = pokemonTrie.searchTrie(searchQuery);
+            String resultText = getResultText(searchResults.size(), searchQuery);
+            howManyResults.setText(resultText);
 
-                searchResults.add(result1);
-                searchResults.add(result2);
-                searchResults.add(result3);
-                searchResults.add(result1);
-                searchResults.add(result2);
-                searchResults.add(result3);
-                searchResults.add(result1);
-                searchResults.add(result2);
-                searchResults.add(result3);
-
-                String searchQuery = textInput.getText().toString(); // Assuming you have an EditText called textInput for entering the search query
-                String resultText;
-                int resultCount = searchResults.size();
-                if (resultCount == 1) {
-                    resultText = resultCount + " result for \"" + searchQuery + "\"";
-                } else {
-                    resultText = resultCount + " results for \"" + searchQuery + "\"";
-                }
-                howManyResults.setText(resultText);
-
-
-                SearchResultAdapter resultAdapter = new SearchResultAdapter(searchResults);
-                adapter.setAdapter(resultAdapter); // Set the adapter to the RecyclerView
-            }
+            SearchResultAdapter resultAdapter = new SearchResultAdapter(searchResults);
+            adapter.setAdapter(resultAdapter);
         });
     }
-
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("MainActivity", "ON RESUME start " );
-        pokemonTrie = loadTrieFileFromInternalStorage();
         if (pokemonTrie == null) {
-            Log.d("MainActivity", "ON RESUME trie null, download Trie" );
-            downloadTrieFile();
+            Log.e("MainActivity", "onResume, pokemonTrie is null");
+            pokemonTrie = loadTrieFileFromInternalStorage();
         }
-        // Add the following line to ensure the trie is initialized before performing the search
-        trieLoaded = (pokemonTrie != null);
-        Log.d("MainActivity", "ON RESUME end: trieLoaded = " + trieLoaded );
-    }
-
-    public static List<SearchResult> searchInTrie(TrieNode root, String prefix) {
-        prefix = prefix.toLowerCase(); // Convert prefix to lowercase
-
-        // Perform wildcard search if the prefix contains underscore character
-        if (prefix.contains("*")) {
-            prefix.replace("*", "_");
-        }
-        return root.searchTrie(root, prefix);
-    }
-
-    private TrieNode loadTrieFileFromInternalStorage() {
-        try {
-            File file = new File(getFilesDir(), TRIE_FILE_NAME);
-            if (file.exists()) {
-                FileInputStream fileInputStream = new FileInputStream(file);
-                TrieNode trie = TrieDeserializer.deserializeTrie(fileInputStream);
-                Log.d("MainActivity", "Trie file loaded from internal storage.");
-                return trie;
+        if (pokemonTrie == null || pokemonTrie.isEmpty()) {
+            Log.e("MainActivity", "onResume, pokemonTrie is " + (pokemonTrie == null ? "null" : "empty"));
+            if (jsonFileExists()) {
+                Log.e("MainActivity", "onResume, json file exists, create trie and serialize");
+                createTrieFromJsonFile();
+                serializeTrieToFile();
+            } else {
+                Log.e("MainActivity", "onResume, json file does not exist, download, create trie, serialize");
+                downloadJsonAndCreateTrie();
+                serializeTrieToFile();
             }
-        } catch (Exception e) {
-            Log.e("MainActivity", "Failed to load trie file: " + e.getMessage());
-            e.printStackTrace();
         }
-        return null;
     }
 
-    private void downloadTrieFile() {
+    private void downloadJsonAndCreateTrie() {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://github.com/sampanes/poketwo_json_to_trie/raw/master/trie.ser")
+                .url("https://github.com/sampanes/poketwo_json_to_trie/raw/master/src/pokemon_dict.json")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -142,30 +105,148 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    try (InputStream inputStream = response.body().byteStream();
-                         FileOutputStream fileOutputStream = openFileOutput(TRIE_FILE_NAME, Context.MODE_PRIVATE)) {
-                        byte[] buffer = new byte[8192];
-                        int bytesRead;
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            fileOutputStream.write(buffer, 0, bytesRead);
-                        }
-                        fileOutputStream.flush();
+                    // Get the JSON string from the response
+                    String json = response.body().string();
 
-                        // Load trie file into pokemonTrie object
-                        FileInputStream fileInputStream = openFileInput(TRIE_FILE_NAME);
-                        pokemonTrie = TrieDeserializer.deserializeTrie(fileInputStream);
-                        trieLoaded = true;
-                        Log.d("MainActivity", "Trie file downloaded and saved.");
-                    } catch (IOException e) {
-                        Log.e("MainActivity", "Failed to save trie file: " + e.getMessage());
-                        e.printStackTrace();
-                    }
+                    // Save the JSON string to a file
+                    saveJsonToFile(json);
+
+                    Log.d("MainActivity", "JSON file downloaded and saved.");
                 } else {
-                    Log.e("MainActivity", "Failed to download trie file: " + response.code() + " - " + response.message());
+                    Log.e("MainActivity", "Failed to download JSON file: " + response.code() + " - " + response.message());
                 }
                 response.close();
             }
+
         });
     }
+
+    private void saveJsonToFile(String json) {
+        try {
+            // Create a file object with the desired file name
+            File file = new File(getFilesDir(), JSON_FILE_NAME);
+
+            // Write the JSON string to the file
+            FileWriter writer = new FileWriter(file);
+            writer.write(json);
+            writer.close();
+        } catch (IOException e) {
+            Log.e("MainActivity", "Failed to save JSON file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void serializeTrieToFile() {
+        try {
+            File file = new File(getFilesDir(), "trie.ser");
+            FileOutputStream fileOut = new FileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(pokemonTrie);
+            out.close();
+            fileOut.close();
+            Log.d("MainActivity", "Trie serialized.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createTrieFromJsonFile() {
+        Gson gson = new Gson();
+
+        try (FileReader fileReader = new FileReader(JSON_FILE_FULL_PATH_NAME)) {
+            JsonObject jsonObject = gson.fromJson(fileReader, JsonObject.class);
+            int skipped_pks = 0;
+
+            for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+                String pokemonName = entry.getKey();
+                JsonElement jsonValue = entry.getValue();
+
+                if (jsonValue.isJsonObject()) {
+                    JsonObject pokemonDataJson = jsonValue.getAsJsonObject();
+                    JsonElement nameElement = pokemonDataJson.get("Name");
+                    JsonElement urlElement = pokemonDataJson.get("URL");
+
+                    if (skipped_pks == 0) {
+                        Log.d("MainActivity", "First Skipped Pokemon Data: " + pokemonDataJson);
+                    }
+
+                    if (nameElement != null && nameElement.isJsonPrimitive() && urlElement != null && urlElement.isJsonPrimitive()) {
+                        String name = nameElement.getAsString();
+                        String url = urlElement.getAsString();
+
+                        // Replace the symbol if present in the Pokemon name
+                        if (name.contains("\u2728")) {
+                            name = name.replace("\u2728", "shiny");
+                        }
+                        // Replace the symbol if present in the Pokemon name
+                        if (name.contains("&")) {
+                            name = name.replace("&", "and");
+                        }
+
+                        Log.d("MainActivity", "Name: " + name);
+                        Log.d("MainActivity", "URL: " + url);
+
+                        TrieUpdater.updateTrie(pokemonTrie, name, url);
+                    } else {
+                        skipped_pks += 1;
+                        if (skipped_pks < 5) {
+                            Log.d("MainActivity", "Skipping Pokemon: " + pokemonName);
+                            Log.d("MainActivity", "nameElement: " + nameElement);
+                            Log.d("MainActivity", "urlElement: " + urlElement);
+                        }
+                    }
+                } else {
+                    Log.d("MainActivity", "Not Object.. Invalid JSON entry for Pokemon: " + pokemonName);
+                }
+            }
+
+            if (skipped_pks > 0) {
+                Log.d("MainActivity", "Lots of non-pokemon, probably shinys with funky star: " + skipped_pks);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private boolean jsonFileExists() {
+        File file = new File(getFilesDir(), JSON_FILE_NAME);
+        boolean exists = file.exists();
+        Log.d("MainActivity", "JSON file exists: " + exists);
+        Log.d("MainActivity", "JSON file path: " + file.getAbsolutePath());
+        return exists;
+    }
+
+    private List<SearchResult> createExampleSearchResults() {
+        List<SearchResult> searchResults = new ArrayList<>();
+        searchResults.add(new SearchResult("Mufikin Pikka", "https://cdn.poketwo.net/images/50032.png?v=26"));
+        searchResults.add(new SearchResult("dedass sanshrw B", "https://cdn.poketwo.net/images/50023.png?v=26"));
+        searchResults.add(new SearchResult("a cute lil bug", "https://cdn.poketwo.net/images/50094.png?v=26"));
+        return searchResults;
+    }
+
+    private String getResultText(int resultCount, String searchQuery) {
+        String resultText = resultCount + " result" + (resultCount == 1 ? "" : "s") + " for \"" + searchQuery + "\"";
+        return resultText;
+    }
+
+    private TrieNode loadTrieFileFromInternalStorage() {
+        TrieNode trie = null;
+        try {
+            File file = new File(getFilesDir(), TRIE_FILE_NAME);
+            if (file.exists()) {
+                FileInputStream fileInputStream = new FileInputStream(file);
+                trie = TrieDeserializer.deserializeTrie(fileInputStream);
+                Log.d("MainActivity", "Trie file loaded from internal storage.");
+            } else {
+                Log.d("MainActivity", "Trie file does not exist in internal storage.");
+            }
+        } catch (Exception e) {
+            Log.e("MainActivity", "Failed to load trie file: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return trie;
+    }
 }
+
 
