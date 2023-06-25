@@ -4,6 +4,8 @@ public class SearchResult {
     private String prefix;
     private String url;
 
+    private Singleton mySingleton;
+
     public SearchResult(String prefix, String url) {
         this.prefix = prefix;
         this.url = url;

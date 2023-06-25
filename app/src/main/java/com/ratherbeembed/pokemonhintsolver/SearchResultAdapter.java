@@ -20,7 +20,8 @@ import java.util.List;
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
     private List<SearchResult> searchResults;
 
-    public SearchResultAdapter(List<SearchResult> searchResults) {
+
+    public SearchResultAdapter(List<SearchResult> searchResults, boolean toggleEnabled) {
         this.searchResults = searchResults;
     }
 
@@ -30,6 +31,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_result, parent, false);
         return new SearchResultViewHolder(itemView);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull SearchResultViewHolder holder, int position) {
@@ -46,11 +48,13 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         private TextView nameTextView;
         private ImageView imageView;
         private String textToCopy;
+        private Singleton mySingleton;
 
         public SearchResultViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.nameTextView);
             imageView = itemView.findViewById(R.id.imageView);
+            mySingleton = Singleton.getInstance();
             // Set the click listener for the item view
             itemView.setOnClickListener(this);
         }
@@ -66,11 +70,25 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         @Override
         public void onClick(View v) {
             // Copy the text to the clipboard
+            String fullText;
+            mySingleton = Singleton.getInstance();
+            boolean toggleEnabled = mySingleton.getData();
             ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Copied Text", textToCopy);
+            if (toggleEnabled){
+                fullText = "@pokétwo c " + textToCopy;
+            }
+            else {
+                fullText = textToCopy;
+            }
+            ClipData clip = ClipData.newPlainText("Copied Text", fullText);
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(v.getContext(), textToCopy+" copied to clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "Clipboard: " + fullText, Toast.LENGTH_SHORT).show();
         }
     }
+
+    public interface ToggleSwitchListener {
+        void onToggleSwitchChanged(boolean isChecked);
+    }
+
 }
 

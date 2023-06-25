@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView adapter;
     private TrieNode pokemonTrie;
     private TextView howManyResults;
-    private boolean trieLoaded = false;
+    private TextView toggleText;
+    private boolean toggleEnabled;
+    private Singleton mySingleton;
     private static final String TRIE_FILE_NAME = "trie.ser";
     private static final String JSON_FILE_NAME = "pokemon_dict.json";
     private static final String JSON_FILE_FULL_PATH_NAME = "/data/user/0/com.ratherbeembed.pokemonhintsolver/files/" + JSON_FILE_NAME;
@@ -52,11 +55,15 @@ public class MainActivity extends AppCompatActivity {
         searchButton = findViewById(R.id.searchButton);
         adapter = findViewById(R.id.recyclerView);
         howManyResults = findViewById(R.id.howManyResults);
+        toggleText = findViewById(R.id.toggleText);
+        mySingleton = Singleton.getInstance();
+
+        SwitchCompat toggleSwitch = findViewById(R.id.toggleSwitch);
+        toggleSwitch.setOnCheckedChangeListener((compoundButton, isChecked) -> toggleClicked());
 
         adapter.setLayoutManager(new GridLayoutManager(this, 2));
 
         searchButton.setOnClickListener(v -> {
-//            List<SearchResult> searchResults = createExampleSearchResults();
             String searchQuery = textInput.getText().toString();
             Log.d("MainActivity", "Search Pressed: " + searchQuery);
 
@@ -66,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             String resultText = getResultText(searchResults.size(), searchQuery);
             howManyResults.setText(resultText);
 
-            SearchResultAdapter resultAdapter = new SearchResultAdapter(searchResults);
+            SearchResultAdapter resultAdapter = new SearchResultAdapter(searchResults, toggleEnabled);
             adapter.setAdapter(resultAdapter);
         });
     }
@@ -251,6 +258,21 @@ public class MainActivity extends AppCompatActivity {
         }
         return trie;
     }
+
+    public void toggleClicked() {
+        // Handle the toggle click event here
+        SwitchCompat toggleSwitch = findViewById(R.id.toggleSwitch);
+        if (toggleSwitch.isChecked()) {
+            toggleEnabled = true;
+            mySingleton.setData(true);
+            toggleText.setText("Full Command");
+        } else {
+            toggleEnabled = false;
+            mySingleton.setData(false);
+            toggleText.setText("Name Only");
+        }
+    }
+
 }
 
 
