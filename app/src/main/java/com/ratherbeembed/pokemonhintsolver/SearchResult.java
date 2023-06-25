@@ -16,4 +16,8 @@ public class SearchResult {
     public String getUrl() {
         return url;
     }
+
+    public String getTextToCopy() {
+        return prefix;
+    }
 }
