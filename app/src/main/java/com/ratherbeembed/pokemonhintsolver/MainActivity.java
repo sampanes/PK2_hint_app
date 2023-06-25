@@ -64,7 +64,16 @@ public class MainActivity extends AppCompatActivity {
         adapter.setLayoutManager(new GridLayoutManager(this, 2));
 
         searchButton.setOnClickListener(v -> {
-            String searchQuery = textInput.getText().toString();
+            String searchQuery = textInput.getText().toString().trim();
+            String phraseToRemove = "The pokémon is";
+            if (searchQuery.startsWith(phraseToRemove)) {
+                searchQuery = searchQuery.substring(phraseToRemove.length()).trim();
+            }
+            searchQuery = searchQuery.replaceAll("\\\\", "").replaceAll("\\.$", "").trim();
+            String[] symbolsToReplace = {",", "@", "#", "$", "&"};
+            for (String symbol : symbolsToReplace) {
+                searchQuery = searchQuery.replace(symbol, "_");
+            }
             Log.d("MainActivity", "Search Pressed: " + searchQuery);
 
             List<SearchResult> searchResults = pokemonTrie.searchTrie(searchQuery);
