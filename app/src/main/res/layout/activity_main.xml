@@ -17,7 +17,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="6">
+            android:layout_weight="11">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInput"
@@ -30,7 +30,7 @@
         <RelativeLayout
             android:layout_width="44dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:clickable="true"
             android:gravity="center_vertical">
 
