@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private EditText textInput;
+    private ImageButton clearButton;
     private Button searchButton;
     private RecyclerView adapter;
     private TrieNode pokemonTrie;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         pokemonTrie = new TrieNode();
 
         textInput = findViewById(R.id.textInput);
+        clearButton = findViewById(R.id.clearButton);
         searchButton = findViewById(R.id.searchButton);
         adapter = findViewById(R.id.recyclerView);
         howManyResults = findViewById(R.id.howManyResults);
@@ -85,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
             SearchResultAdapter resultAdapter = new SearchResultAdapter(searchResults, toggleEnabled);
             adapter.setAdapter(resultAdapter);
         });
+
+        clearButton.setOnClickListener(view -> textInput.setText(""));
     }
 
     @Override

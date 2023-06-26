@@ -14,18 +14,33 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="11">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInput"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/enter_pok_mon_name" />
+                android:layout_height="wrap_content">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_pok_mon_name" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginRight="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/baseline_cancel_24" />
+
+        </FrameLayout>
 
         <RelativeLayout
             android:layout_width="44dp"
