@@ -75,7 +75,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             boolean toggleEnabled = mySingleton.getData();
             ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
             if (toggleEnabled){
-                fullText = "@pokétwo c " + textToCopy;
+                fullText = "@Pokétwo#8236 c " + textToCopy;
             }
             else {
                 fullText = textToCopy;
